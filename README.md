@@ -1,4 +1,4 @@
-# Stringest-edge-detection
+# Strongest-edge-detection
 
 After converting the image to a gray scale, We hardcoded the sobel matrix for X and Y direction, and
 then applying the same kernel over the image ‘dew.jpg’ gave us two matrix Gx and Gy, which are
