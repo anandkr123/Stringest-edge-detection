@@ -1,0 +1,73 @@
+function edge_color_code()
+I=imread('dew.jpg');
+Ig=rgb2gray(I);
+G = fspecial('gaussian',[3, 3],2);                       %Gaussian filtering
+I1 = imfilter(I,G,'replicate');
+I2=im2double(I1);
+wx=[1 0 -1;2 0 -2;1 0 -1];                               % sobel matric for X direction edge detection
+wy=wx';
+GX=imfilter(I2,wx,'corr','replicate','same');
+GY=imfilter(I2,wy,'corr','replicate','same');
+Gx=im2double(GX);
+Gy=im2double(GY);
+G_mag=sqrt(GX.^2 + GY.^2);                               % calcuating gradient magnitude
+
+alpha=atan2(GY,GX);                                      % calculating the angle alpha of the image
+alpha=alpha*(180./pi);           
+I_quant=quantile(G_mag(:),0.98);                         % extracting 98 percent strongest edges
+I_sharp= G_mag > I_quant;
+figure, imshow(I_sharp);
+[r c]=size(I_sharp);
+color_img=ones(r,c,3);
+color_img(:,:,1)=I_sharp;
+color_img(:,:,2)=I_sharp;
+color_img(:,:,3)=I_sharp;
+for i=1:r
+    for j=1:c
+        if(alpha(i,j) < 0)
+            alpha(i,j)=alpha(i,j)+ 360;
+        end 
+    end
+end
+%disp(alpha);
+% for i=1:r
+%     for j=1:c
+%         if ((alpha(i,j)>=0 && alpha(i,j)<22.5) || (alpha(i,j) >157.5 && alpha(i,j) <202.5) ||( alpha(i,j)>292.5 && alpha(i,j)<=360 ))  %horizontal edges
+%             color_img(i,j,1)=255*color_img(i,j,1);
+%             color_img(i,j,2)=255*color_img(i,j,2);         
+%             color_img(i,j,3)=0*color_img(i,j,3);
+%         end 
+%     end
+% end
+for i=1:r
+    for j=1:c
+if ( (alpha(i,j)>=0 && alpha(i,j)<22.5) || (alpha(i,j) >157.5 && alpha(i,j) <202.5) || (alpha(i,j)>337.5 && alpha(i,j)<=360))  %horizontal edges
+color_img(i,j,1)=255*color_img(i,j,1);
+color_img(i,j,2)=255*color_img(i,j,2);         
+color_img(i,j,3)=0*color_img(i,j,3);
+
+elseif((alpha(i,j)>22.5 && alpha(i,j)<67.5 ) || ( alpha(i,j)>202.5 && alpha(i,j)< 247.5)) % right diagonal edges
+color_img(i,j,1)=0*color_img(i,j,1);
+color_img(i,j,2)=255*color_img(i,j,2);
+color_img(i,j,3)=0*color_img(i,j,3);
+   
+elseif((alpha(i,j)>112.5 && alpha(i,j)<157.5) || ( alpha(i,j)>292.5 && alpha(i,j)< 337.5))%left diagonal edges
+color_img(i,j,1)=255*color_img(i,j,1);
+color_img(i,j,2)=0*color_img(i,j,2);
+color_img(i,j,3)=0*color_img(i,j,3);
+   
+elseif((alpha(i,j)>67.5 && alpha(i,j)<112.5) || (alpha(i,j)>247.5 && alpha(i,j)<292.5)) %vertical edges
+color_img(i,j,1)=0*color_img(i,j,1);  
+color_img(i,j,2)=0*color_img(i,j,2);
+color_img(i,j,3)=255*color_img(i,j,3);
+end
+    end
+end
+
+
+figure,imshow(color_img)
+%  whos(alpha)
+%  imshow(color_img);
+%  figure,imshow(alpha)
+end
+
