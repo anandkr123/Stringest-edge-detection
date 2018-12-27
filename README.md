@@ -18,3 +18,5 @@ We tried at first without Gaussian smoothing.The resultant color coded image was
 the color edges marked were not smooth as compared when we applied Gaussian filtering .The results
 as you can see after executing the code. The result image has very fine edges with using the Gaussian
 filter.
+![color_image](https://user-images.githubusercontent.com/23450113/50497144-84daff80-0a35-11e9-896c-cb61d93ba52a.jpg)
+![stronges_color_edge_smoothed](https://user-images.githubusercontent.com/23450113/50497148-873d5980-0a35-11e9-9239-3ad18ed66610.jpg)
