@@ -39,6 +39,8 @@ end
 %         end 
 %     end
 % end
+
+% perform coloring of the strongest edges according to the range of angles
 for i=1:r
     for j=1:c
 if ( (alpha(i,j)>=0 && alpha(i,j)<22.5) || (alpha(i,j) >157.5 && alpha(i,j) <202.5) || (alpha(i,j)>337.5 && alpha(i,j)<=360))  %horizontal edges
